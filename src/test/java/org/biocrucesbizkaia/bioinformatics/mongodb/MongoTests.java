@@ -2,13 +2,11 @@ package org.biocrucesbizkaia.bioinformatics.mongodb;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
@@ -18,7 +16,7 @@ import org.bson.Document;
 
 public class MongoTests {
 	
-	private static final Logger LOGGER = LogManager.getLogger(MongoTests.class);
+	Logger logger = LoggerFactory.getLogger(MongoTests.class);
 	
 	private final static String dbName = "JavaTests";
 	private final static String collectionName = "BigCollection";
@@ -57,8 +55,8 @@ public class MongoTests {
 			        .append("type", "database")
 			        .append("count", i)
 			        .append("info", new Document("x", 203).append("y", 102));
-			LOGGER.info(doc.toJson());
 			coll.insertOne(doc);
+			logger.info("Inserted: " + doc.toJson());
 		}
 		assertEquals(75000, coll.count(new Document()));
 	}
